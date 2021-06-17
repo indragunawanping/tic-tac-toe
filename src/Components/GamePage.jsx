@@ -1,7 +1,8 @@
 import React from 'react';
 import '../App.css';
+import { Button, Modal } from "semantic-ui-react";
 
-function Square({val, chooseSquare}) {
+function GamePage({val, chooseSquare}) {
     return (
         <div className="square" onClick={chooseSquare}>
             {val}
@@ -9,4 +10,4 @@ function Square({val, chooseSquare}) {
     );
 }
 
-export default Square;
+export default GamePage;
