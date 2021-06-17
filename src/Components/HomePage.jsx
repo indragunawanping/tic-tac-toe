@@ -22,12 +22,20 @@ function HomePage(props) {
                 </Button>
             </div>
 
-            <div className={styles.ActiveSide}>You Choose: {props.activeSide}</div>
             {
-                props.activeSide ? <Button color='green' className={styles.Button}
-                                           onClick={props.handleContinueButtonClick}>Continue</Button> : <></>
+                props.activeSide ?
+                    <>
+                        <div className={styles.ActiveSide}>Play As</div>
+                        <div className={styles.MiniImage}>
+                            <Image src={props.activeSide === 'O'? logoO50 : logoX50} size='mini'/>
+                        </div>
+                        <Button color='green'
+                                className={styles.Button}
+                                onClick={props.handleContinueButtonClick}>Play</Button>
+                    </>
+                    :
+                    <></>
             }
-
         </div>
     );
 }

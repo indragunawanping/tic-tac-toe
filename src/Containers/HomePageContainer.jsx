@@ -3,7 +3,7 @@ import HomePage from "../Components/HomePage";
 import { useHistory } from "react-router";
 
 function HomePageContainer() {
-    const [activeSide, setActiveSide] = useState('');
+    const [activeSide, setActiveSide] = useState(null);
 
     const history = useHistory();
 
