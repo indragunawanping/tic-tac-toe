@@ -8,17 +8,15 @@ function HomePageContainer() {
     const history = useHistory();
 
     const handleButtonOClick = () => {
-        console.log('O');
         setActiveSide('O');
     }
 
     const handleButtonXClick = () => {
-        console.log('X');
         setActiveSide('X');
     }
 
     const handleContinueButtonClick = () => {
-        history.push('/game')
+        history.push('/game', { firstTurn: activeSide, player: activeSide })
     }
 
     return (

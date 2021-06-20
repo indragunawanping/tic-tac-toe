@@ -1,0 +1,140 @@
+.WinnerOuterContainer{
+    display: flex;
+    justify-content: center !important;
+}
+
+.WinnerContainer{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.WinnerContainer .content img.ui.image{
+    margin: 0 !important;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.ModalTitle{
+    text-align: center;
+    margin: 20px;
+    font-size: 30px;
+}
+
+.WinnerText{
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.BoardContainer {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow:auto !important;
+}
+
+.HeaderBoardContainer{
+    display: flex;
+    flex-direction: row;
+    size: auto;
+}
+
+.PlayerContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.PlayerContainer div{
+    margin-bottom: 10px;
+}
+
+.PlayerImage img{
+   height: 30px;
+}
+
+.TurnContainer{
+    margin-left: 10px;
+}
+
+.TitleBoard{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.Board {
+    width: 35vh;
+    height: 35vh;
+    background-color: #ECECEC;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.Row {
+    flex: 33%;
+    display: flex;
+    flex-direction: row;
+}
+
+.Square {
+    flex: 33%;
+    height: 100%;
+    border: 1px solid black;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.Square:active {
+    background-color: #D4D4D4;
+}
+
+.SquareWin{
+    background: #D4F7DD;
+}
+
+.Title {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.Turn {
+    margin: 15px 0 25px 0;
+}
+
+.ButtonContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.Button {
+    margin-top: 20px !important;
+}
+
+.Button i{
+    display: flex;
+    margin: 0 !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.ButtonLeft {
+    margin-right: 10px !important;
+}
+
+.ButtonRight {
+    margin-left: 10px !important;
+}

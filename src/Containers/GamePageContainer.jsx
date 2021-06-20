@@ -1,115 +1,110 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import GamePage from "../Components/GamePage";
 import { Patterns } from "../Patterns";
+import { useHistory } from "react-router";
 
-function GamePageContainer() {
-    const [board, setBoard] = useState(['', '', '', '', '', '', '', '', '']);
-    const [player, setPlayer] = useState('X');
-    const [result, setResult] = useState({winner: 'none', state: 'none'});
+function GamePageContainer(props) {
+    console.log('props: ', props.location.state);
+
+    const [boards, setBoards] = useState(['', '', '', '', '', '', '', '', '']);
+    const [currentTurn, setCurrentTurn] = useState(props.location.state.firstTurn);
+    const [winner, setWinner] = useState(null);
+    const [winningPattern, setWinningPattern] = useState([]);
+    const [player] = useState(props.location.state.player);
+
+    const GetPrevious = (currentTurn) => {
+        const ref = useRef();
+        useEffect(() => {
+            ref.current = currentTurn;
+        });
+        return ref.current;
+    }
+
+    const prevTurn = GetPrevious(currentTurn);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const history = useHistory();
 
     useEffect(() => {
+        console.log('kepanggil');
         checkIfTie();
         checkWin();
-
-        if (player === 'X') {
-            setPlayer('O');
-        } else {
-            setPlayer('X');
-        }
-    }, [board]);
+    }, [boards]);
 
     useEffect(() => {
-        if (result.state !== 'none') {
-            alert(`Game Finished! Winning Player: ${result.winner}`);
-            restartGame();
+        if (winner !== null) {
+            setIsModalOpen(true);
         }
-    }, [result]);
+    }, [winner]);
 
-    const chooseSquare = (square) => {
-        setBoard(board.map((val, idx) => {
-            if (idx === square && val === '') {
-                return player;
-            }
+    const handleSquareClick = (square) => {
+        const cloneBoards = [...boards];
 
-            return val;
-        }));
+        if (!cloneBoards[square]) {
+            cloneBoards[square] = currentTurn;
+            currentTurn === 'X' ? setCurrentTurn('O') : setCurrentTurn('X');
+            setBoards(cloneBoards);
+        }
+    };
+
+    const handleHomeButtonClick = () => {
+        history.push('/')
     };
 
     const checkWin = () => {
         Patterns.forEach((currPattern) => {
-            const firstPlayer = board[currPattern[0]];
+            const firstPlayer = boards[currPattern[0]];
             if (firstPlayer === '') return;
             let foundWinningPattern = true;
             currPattern.forEach((idx) => {
-                if (board[idx] !== firstPlayer) {
+                if (boards[idx] !== firstPlayer) {
                     foundWinningPattern = false;
                 }
             });
             if (foundWinningPattern) {
-                setResult({winner: player, state: 'won'})
+                setWinner(prevTurn);
+                setWinningPattern(currPattern);
             }
         })
     };
 
     const checkIfTie = () => {
         let filled = true;
-        board.forEach((square) => {
+        boards.forEach((square) => {
             if (square === '') {
                 filled = false;
             }
         });
 
         if (filled) {
-            setResult({winner: 'No One', state: 'Tie'})
+            setWinner(null)
         }
     };
 
     const restartGame = () => {
-        setBoard(['', '', '', '', '', '', '', '', '']);
-        setPlayer('X');
+        setBoards(['', '', '', '', '', '', '', '', '']);
+        setCurrentTurn(props.location.state.firstTurn)
     };
 
+    const handleOkayButtonClick = () => {
+        setIsModalOpen(false);
+        setWinner(null);
+        setCurrentTurn(null);
+    }
+
     return (
-        <div className="App">
-            <div className="board">
-                <div className="row">
-                    <GamePage val={board[0]} chooseSquare={() => {
-                        chooseSquare(0)
-                    }}/>
-                    <GamePage val={board[1]} chooseSquare={() => {
-                        chooseSquare(1)
-                    }}/>
-                    <GamePage val={board[2]} chooseSquare={() => {
-                        chooseSquare(2)
-                    }}/>
-                </div>
-
-                <div className="row">
-                    <GamePage val={board[3]} chooseSquare={() => {
-                        chooseSquare(3)
-                    }}/>
-                    <GamePage val={board[4]} chooseSquare={() => {
-                        chooseSquare(4)
-                    }}/>
-                    <GamePage val={board[5]} chooseSquare={() => {
-                        chooseSquare(5)
-                    }}/>
-                </div>
-
-                <div className="row">
-                    <GamePage val={board[6]} chooseSquare={() => {
-                        chooseSquare(6)
-                    }}/>
-                    <GamePage val={board[7]} chooseSquare={() => {
-                        chooseSquare(7)
-                    }}/>
-                    <GamePage val={board[8]} chooseSquare={() => {
-                        chooseSquare(8)
-                    }}/>
-                </div>
-            </div>
-        </div>
-    );
+        <GamePage winner={winner}
+                  player={player}
+                  boards={boards}
+                  currentTurn={currentTurn}
+                  isModalOpen={isModalOpen}
+                  winningPattern={winningPattern}
+                  handleSquareClick={handleSquareClick}
+                  handleHomeButtonClick={handleHomeButtonClick}
+                  handleRestartButtonClick={restartGame}
+                  handleOkayButtonClick={handleOkayButtonClick}
+        />
+    )
 }
 
 export default GamePageContainer;

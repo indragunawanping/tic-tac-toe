@@ -6,8 +6,6 @@ import logoO50 from '../Assets/logoO50.png';
 import logoX50 from '../Assets/logoX50.png';
 
 function HomePage(props) {
-    console.log('props: ', props);
-
     return (
         <div className={styles.HomePageContainer}>
             <Image src={ttt192} size='small'/>
