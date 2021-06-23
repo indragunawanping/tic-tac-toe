@@ -3,27 +3,46 @@ import HomePage from "../Components/HomePage";
 import { useHistory } from "react-router";
 
 function HomePageContainer() {
-    const [activeSide, setActiveSide] = useState(null);
+    const [player, setPlayer] = useState(null);
+    const [opponent, setOpponent] = useState(null);
+    const [firstTurn, setFirstTurn] = useState(null);
+    const [isSinglePlayer, setIsSinglePlayer] = useState(false);
 
     const history = useHistory();
 
     const handleButtonOClick = () => {
-        setActiveSide('O');
+        setPlayer('O');
+        setOpponent('X');
     }
 
     const handleButtonXClick = () => {
-        setActiveSide('X');
+        setPlayer('X');
+        setOpponent('O');
     }
 
-    const handleContinueButtonClick = () => {
-        history.push('/game', { firstTurn: activeSide, player: activeSide })
+    const handlePlayButtonClick = () => {
+        const randIdx = Math.floor(Math.random() * 2);
+        const firstTurn = randIdx === 0 ? player : opponent;
+        setFirstTurn(firstTurn);
+    }
+
+    const handleOkButtonClick = () => {
+        history.push('/game', {firstTurn: firstTurn, player: player, isSinglePlayer: isSinglePlayer})
+    }
+
+    const handlePlayerClick = (isSinglePlayer) => {
+        setIsSinglePlayer(isSinglePlayer)
     }
 
     return (
         <HomePage handleButtonOClick={handleButtonOClick}
                   handleButtonXClick={handleButtonXClick}
-                  handleContinueButtonClick={handleContinueButtonClick}
-                  activeSide={activeSide}
+                  handlePlayButtonClick={handlePlayButtonClick}
+                  handleOkButtonClick={handleOkButtonClick}
+                  handlePlayerClick={handlePlayerClick}
+                  isSinglePlayer={isSinglePlayer}
+                  player={player}
+                  firstTurn={firstTurn}
         />
     );
 }

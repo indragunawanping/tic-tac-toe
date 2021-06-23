@@ -18,8 +18,12 @@ function GamePage(props) {
         for (let i = 0; i < 3; i++) {
             rowElements.push(
                 <div className={styles.Row} key={i}>
-                    <div className={`${styles.Square} ${props.winningPattern.includes(i * 3) ? styles.SquareWin : null}`}
-                         onClick={() => {props.handleSquareClick(i * 3)}}>
+                    <div
+                        className={`
+                        ${styles.Square} 
+                        ${props.winningPattern.includes(i * 3) ? styles.SquareWin : null}`
+                        }
+                        onClick={() => {props.handleSquareClick(i * 3)}}>
                         <Transition visible={!!props.boards[i * 3]} animation='jiggle' duration={500}>
                             {renderPlayer(props.boards[i * 3])}
                         </Transition>
@@ -47,27 +51,47 @@ function GamePage(props) {
         return rowElements;
     }
 
-    return (
-        props.winner ?
-            <Modal open={props.isModalOpen} size={'mini'}>
+    const renderTieElements = () => {
+        return (
+            <Modal open={props.isTie} size={'mini'}>
                 <div className={styles.ModalTitle}>
-                    <Header content={props.player === props.winner ? 'You Win!' : 'You Lose!'}/>
-                </div>
-
-                <div className={styles.WinnerOuterContainer}>
-                    <Modal.Content image>
-                        <div className={styles.WinnerContainer}>
-                            {renderPlayer(props.winner)}
-                            <div className={styles.WinnerText}>Winner</div>
-                        </div>
-                    </Modal.Content>
+                    <Header content={'Tie!'}/>
                 </div>
 
                 <Modal.Actions>
                     <Button color='green' onClick={props.handleOkayButtonClick}>Okay</Button>
                 </Modal.Actions>
             </Modal>
-            :
+        )
+    }
+
+    const renderWinnerElements = () => {
+        if(props.winner) {
+            return (
+                <Modal open={props.isModalOpen} size={'mini'}>
+                    <div className={styles.ModalTitle}>
+                        <Header content={props.player === props.winner ? 'You Win!' : 'You Lose!'}/>
+                    </div>
+
+                    <div className={styles.WinnerOuterContainer}>
+                        <Modal.Content image>
+                            <div className={styles.WinnerContainer}>
+                                {renderPlayer(props.winner)}
+                                <div className={styles.WinnerText}>Winner</div>
+                            </div>
+                        </Modal.Content>
+                    </div>
+
+                    <Modal.Actions>
+                        <Button color='green' onClick={props.handleOkayButtonClick}>Okay</Button>
+                    </Modal.Actions>
+                </Modal>
+            )
+        }
+    }
+
+    const renderBoardsElements = () => {
+        return (
             <div className={styles.BoardContainer}>
                 {
                     props.currentTurn ? <div className={styles.Title}>TURN</div> :
@@ -79,7 +103,7 @@ function GamePage(props) {
                     {renderPlayer(props.currentTurn)}
                 </div>
 
-                <div className={styles.Board}>
+                <div className={`${styles.Board} ${props.winner ? styles.WinnerFound : ''}`}>
                     {renderBoardRow()}
                 </div>
 
@@ -120,6 +144,15 @@ function GamePage(props) {
                     </Button>
                 </div>
             </div>
+        )
+    }
+
+    return (
+        <React.Fragment>
+            {renderTieElements()}
+            {renderWinnerElements()}
+            {renderBoardsElements()}
+        </React.Fragment>
     );
 }
 

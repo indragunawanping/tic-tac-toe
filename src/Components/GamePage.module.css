@@ -70,6 +70,7 @@
     text-align: center;
     font-size: 30px;
     font-weight: bold;
+    margin-bottom: 30px;
 }
 
 .Board {
@@ -79,6 +80,11 @@
     border: 1px solid black;
     display: flex;
     flex-direction: column;
+}
+
+.WinnerFound{
+    pointer-events: none;
+    opacity: 0.7;
 }
 
 .Row {
@@ -103,7 +109,7 @@
 }
 
 .SquareWin{
-    background: #D4F7DD;
+    background: lime;
 }
 
 .Title {

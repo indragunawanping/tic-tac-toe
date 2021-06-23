@@ -6,6 +6,10 @@
     flex-direction: column;
 }
 
+.PlayerType{
+    margin-bottom: 20px;
+}
+
 .ButtonContainer{
     margin: 50px 0 20px 0;
 }
@@ -14,11 +18,37 @@
     margin: 0 20px !important;
 }
 
-.ActiveSide{
+.PlayerOpponentContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.PlayerContainer, .OpponentContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.PlayerContainer{
+    margin-right: 10px;
+}
+
+.OpponentContainer{
+    margin-left: 10px;
+}
+
+.Player{
     margin-bottom: 10px;
     font-weight: bold;
 }
 
 .MiniImage{
     margin-bottom: 15px;
+}
+
+.ModalTitle{
+    text-align: center;
+    margin: 20px;
+    font-size: 30px;
 }
