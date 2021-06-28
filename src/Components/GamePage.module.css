@@ -144,3 +144,7 @@
 .ButtonRight {
     margin-left: 10px !important;
 }
+
+.Hidden{
+    visibility: hidden;
+}

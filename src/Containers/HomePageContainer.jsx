@@ -6,7 +6,7 @@ function HomePageContainer() {
     const [player, setPlayer] = useState(null);
     const [opponent, setOpponent] = useState(null);
     const [firstTurn, setFirstTurn] = useState(null);
-    const [isSinglePlayer, setIsSinglePlayer] = useState(false);
+    const [isSinglePlayer, setIsSinglePlayer] = useState(true);
 
     const history = useHistory();
 

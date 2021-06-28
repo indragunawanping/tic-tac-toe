@@ -111,7 +111,7 @@ function GamePage(props) {
                     <Grid columns={2} relaxed='very'>
                         <Grid.Column>
                             <div className={styles.PlayerContainer}>
-                                <div>Player</div>
+                                <div>P1</div>
                                 <div className={styles.PlayerImage}>
                                     {renderPlayer(props.player)}
                                 </div>
@@ -119,7 +119,7 @@ function GamePage(props) {
                         </Grid.Column>
                         <Grid.Column>
                             <div className={styles.PlayerContainer}>
-                                <div>Opponent</div>
+                                <div>P2</div>
                                 <div className={styles.PlayerImage}>
                                     {renderPlayer(props.player === 'O' ? 'X' : 'O', 'mini')}
                                 </div>

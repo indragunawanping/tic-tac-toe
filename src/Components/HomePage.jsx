@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Header, Image, Modal } from "semantic-ui-react";
+import { Button, Image, Modal } from "semantic-ui-react";
 import styles from './HomePage.module.css'
 import ttt192 from '../Assets/logo192.png';
 import logoO50 from '../Assets/logoO50.png';
 import logoX50 from '../Assets/logoX50.png';
+import { Link } from "react-router-dom";
 
 function HomePage(props) {
     return (
@@ -63,6 +64,8 @@ function HomePage(props) {
                     <Button color='green' onClick={props.handleOkButtonClick}>Ok</Button>
                 </Modal.Actions>
             </Modal>
+
+            <Link to="/credits">credits</Link>
         </div>
     );
 }

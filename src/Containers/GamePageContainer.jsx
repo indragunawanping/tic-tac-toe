@@ -36,9 +36,9 @@ function GamePageContainer(props) {
     useEffect(() => {
         checkIfTie();
         checkWin();
-        if (currentTurn !== player && !checkWin() && props.location.state.isSinglePlayer) {
-            console.log('props.location.state.isSinglePlayer: ', props.location.state.isSinglePlayer);
-            handleGetOpponentTurn();
+
+        if (currentTurn !== player && !checkWin().isWinnerFound && props.location.state.isSinglePlayer) {
+            handleGetOpponentTurn(checkWin().lastSlot);
         }
     }, [boards]);
 
@@ -57,29 +57,29 @@ function GamePageContainer(props) {
 
             const updatedCurrentTurn = currentTurn === 'X' ? 'O' : 'X';
             setCurrentTurn(updatedCurrentTurn);
-            // if (checkWin() === false) {
-            //     handleGetOpponentTurn(toUpdatedBoards, updatedCurrentTurn);
-            // }
         }
     };
 
-    const handleGetOpponentTurn = () => {
-        const emptySquares = [];
+    const handleGetOpponentTurn = (lastSlot) => {
         const toUpdatedBoards = [...boards];
 
-        toUpdatedBoards.map((sq, idx) => {
-            if (sq === '') {
-                emptySquares.push(idx);
-            }
-        })
+        if (lastSlot && !toUpdatedBoards[lastSlot]) {
+            toUpdatedBoards[lastSlot] = currentTurn;
+        } else {
+            const emptySquares = [];
+            toUpdatedBoards.map((sq, idx) => {
+                if (sq === '') {
+                    emptySquares.push(idx);
+                }
+            })
 
-        const randomIdx = emptySquares[Math.floor(Math.random() * emptySquares.length)];
-        toUpdatedBoards[randomIdx] = currentTurn;
+            const randomIdx = emptySquares[Math.floor(Math.random() * emptySquares.length)];
+            toUpdatedBoards[randomIdx] = currentTurn;
+        }
         setBoards(toUpdatedBoards);
 
         const updatedCurrentTurn = currentTurn === 'X' ? 'O' : 'X';
         setCurrentTurn(updatedCurrentTurn);
-        // console.log('currentTurn opponent: ', currentTurn);
     }
 
     const handleHomeButtonClick = () => {
@@ -88,16 +88,25 @@ function GamePageContainer(props) {
 
     const checkWin = () => {
         let isWinnerFound = false;
+        let lastSlot = null;
         Patterns.forEach((currPattern) => {
             const firstPlayer = boards[currPattern[0]];
             if (firstPlayer === '') return;
             let foundWinningPattern = true;
-
-            currPattern.forEach((idx) => {
+            const nonSamePattern = [];
+            let samePattern = true;
+            currPattern.forEach((idx, counter) => {
                 if (boards[idx] !== firstPlayer) {
                     foundWinningPattern = false;
+                    nonSamePattern.push(idx);
                 }
             });
+
+            if(nonSamePattern.length === 1){
+                lastSlot = nonSamePattern[0];
+                console.log('firstPlayer: ', firstPlayer);
+                console.log('lastSlot: ', lastSlot);
+            }
             if (foundWinningPattern) {
                 isWinnerFound = true;
                 setWinner(prevTurn);
@@ -105,7 +114,7 @@ function GamePageContainer(props) {
             }
         })
 
-        return isWinnerFound;
+        return {isWinnerFound, lastSlot};
     };
 
     const checkIfTie = () => {
